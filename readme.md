@@ -1,82 +1,121 @@
-Build-a-Complete-Medical-Chatbot-with-LLMs-LangChain-Pinecone-Flask-AWS
-How to run?
-STEPS:
-Clone the repository
+# Build-a-Complete-Medical-Chatbot-with-LLMs-LangChain-Pinecone-Flask-AWS
 
-git clone https://github.com/stone-coding/Build-a-Complete-Medical-Chatbot-with-LLMs-LangChain-Pinecone-Flask-AWS/blob/main/requirements.txt
-STEP 01- Create a conda environment after opening the repository
+## How to Run?
+
+### **STEPS**
+
+---
+
+### **1. Clone the repository**
+```bash
+git clone https://github.com/stone-coding/Build-a-Complete-Medical-Chatbot-with-LLMs-LangChain-Pinecone-Flask-AWS.git
+cd Build-a-Complete-Medical-Chatbot-with-LLMs-LangChain-Pinecone-Flask-AWS
+````
+
+---
+
+### **2. Create a conda environment**
+
+```bash
 conda create -n medibot python=3.10 -y
 conda activate medibot
-STEP 02- install the requirements
+```
+
+---
+
+### **3. Install the requirements**
+
+```bash
 pip install -r requirements.txt
-Create a .env file in the root directory and add your Pinecone & openai credentials as follows:
-PINECONE_API_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-OPENAI_API_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-# run the following command to store embeddings to pinecone
+```
+
+---
+
+### **4. Create a `.env` file**
+
+In the root directory, add your Pinecone & OpenAI credentials:
+
+```
+PINECONE_API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+OPENAI_API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+```
+
+---
+
+### **5. Store embeddings to Pinecone**
+
+```bash
 python store_index.py
-# Finally run the following command
+```
+
+---
+
+### **6. Run the application**
+
+```bash
 python app.py
-Now, 
+```
 
-open up localhost:
-Techstack Used:
-Python
-LangChain
-Flask
-GPT
-Pinecone
-AWS-CICD-Deployment-with-Github-Actions
-1. Login to AWS console.
-2. Create IAM user for deployment
-#with specific access
+Then open:
 
-1. EC2 access : It is virtual machine
+```
+http://localhost:5000
+```
 
-2. ECR: Elastic Container registry to save your docker image in aws
+---
 
+## Tech Stack Used
 
-#Description: About the deployment
+* Python
+* LangChain
+* Flask
+* GPT
+* Pinecone
+* AWS (EC2, ECR)
+* CI/CD Deployment with GitHub Actions
 
-1. Build docker image of the source code
+---
 
-2. Push your docker image to ECR
+## AWS Deployment Steps
 
-3. Launch Your EC2 
+1. **Login to AWS console.**
+2. **Create IAM user for deployment** (with specific access):
 
-4. Pull Your image from ECR in EC2
+   * `AmazonEC2ContainerRegistryFullAccess`
+   * `AmazonEC2FullAccess`
+3. **Create ECR repo** to store/save docker image
+   Save the URI:
 
-5. Lauch your docker image in EC2
+   ```
+   315865595366.dkr.ecr.us-east-1.amazonaws.com/medicalbot
+   ```
+4. **Build docker image** of the source code.
+5. **Push docker image to ECR**.
+6. **Launch EC2 instance** (Ubuntu).
+7. **Install Docker in EC2**:
 
-#Policy:
+   ```bash
+   sudo apt-get update -y
+   sudo apt-get upgrade
+   curl -fsSL https://get.docker.com -o get-docker.sh
+   sudo sh get-docker.sh
+   sudo usermod -aG docker ubuntu
+   newgrp docker
+   ```
+8. **Pull docker image from ECR** in EC2.
+9. **Run docker image** in EC2.
+10. **Configure EC2 as a self-hosted GitHub runner**:
 
-1. AmazonEC2ContainerRegistryFullAccess
+    * Go to **Settings > Actions > Runners > New self-hosted runner**
+    * Choose OS
+    * Run the provided commands in EC2 terminal
+11. **Setup GitHub Secrets**:
 
-2. AmazonEC2FullAccess
-3. Create ECR repo to store/save docker image
-- Save the URI: 315865595366.dkr.ecr.us-east-1.amazonaws.com/medicalbot
-4. Create EC2 machine (Ubuntu)
-5. Open EC2 and Install docker in EC2 Machine:
-#optinal
+    * `AWS_ACCESS_KEY_ID`
+    * `AWS_SECRET_ACCESS_KEY`
+    * `AWS_DEFAULT_REGION`
+    * `ECR_REPO`
+    * `PINECONE_API_KEY`
+    * `OPENAI_API_KEY`
 
-sudo apt-get update -y
-
-sudo apt-get upgrade
-
-#required
-
-curl -fsSL https://get.docker.com -o get-docker.sh
-
-sudo sh get-docker.sh
-
-sudo usermod -aG docker ubuntu
-
-newgrp docker
-6. Configure EC2 as self-hosted runner:
-setting>actions>runner>new self hosted runner> choose os> then run command one by one
-7. Setup github secrets:
-AWS_ACCESS_KEY_ID
-AWS_SECRET_ACCESS_KEY
-AWS_DEFAULT_REGION
-ECR_REPO
-PINECONE_API_KEY
-OPENAI_API_KEY
+```
