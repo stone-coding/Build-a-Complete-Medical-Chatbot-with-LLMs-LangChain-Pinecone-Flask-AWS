@@ -87,7 +87,7 @@ http://localhost:5000
    Save the URI:
 
    ```
-   302263089029.dkr.ecr.us-west-2.amazonaws.com/medicalbot
+   302263089029.dkr.ecr.us-east-1.amazonaws.com/medicalbot
    ```
 4. **Build docker image** of the source code.
 5. **Push docker image to ECR**.
